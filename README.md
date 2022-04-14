@@ -1,6 +1,6 @@
 # Kubernetes plugin for drone.io with kubectl v1.23.3
 
-This plugin allows to deploy an image to kubernetes cluster.
+This plugin allows to update Kubernetes resources by a YAML file.
 
 ## Build
 
@@ -17,7 +17,7 @@ docker buildx build --platform linux/amd64,linux/arm64  \
 ## Prerequisite
 
 `drone-runner-kube` MUST install and this plugin is for in-cluster operation ONLY.
-  * use serviceaccount/drone/default, and CANNOT use other credential currently
+  * use `serviceaccount/drone/default`, and CANNOT use other credential currently
   * cannot control remote k8s (out-cluster)
 
 ### RBAC
@@ -121,7 +121,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: k8scicd.apps.myoci.cf
+  - host: k8scicd.example.com
     http:
       paths:
       - backend:
@@ -133,5 +133,5 @@ spec:
         pathType: Exact
   tls:
   - hosts:
-    - demo.apps.myoci.cf
+    - k8scicd.example.com
 ```
