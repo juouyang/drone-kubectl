@@ -16,9 +16,9 @@ docker buildx build --platform linux/amd64,linux/arm64  \
 
 ## Prerequisite
 
-drone-runner-kube MUST install and this plugin is for in-cluster operation.
+`drone-runner-kube` MUST install and this plugin is for in-cluster operation ONLY.
   * use serviceaccount/drone/default, and CANNOT use other credential currently
-  * cannot control remote k8s without drone-runner-kube install
+  * cannot control remote k8s (out-cluster)
 
 ### RBAC
 
@@ -49,8 +49,6 @@ steps:
   - name: staging
     image: juouyang/drone-kubectl:v1.23.3
     commands:
-      - kubectl create deployment demo --image=httpd --port=80 -n demo
-      - kubectl expose deployment demo -n demo
-      - kubectl create ingress demo --class=nginx --rule="demo.example.com/*=demo:80" -n demo
+      - kubectl set image deployment/demo demo=juouyang/k8scicd:${DRONE_COMMIT_SHA:0:7} -n demo
 ```
 
