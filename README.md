@@ -20,23 +20,6 @@ docker buildx build --platform linux/amd64,linux/arm64  \
   * use `serviceaccount/drone/default`, and CANNOT use other credential currently
   * cannot control remote k8s (out-cluster)
 
-### RBAC
-
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: drone-default-sa-cluster-admin
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: drone
-```
-
 ## Usage
 
 .drone.yml
@@ -134,4 +117,23 @@ spec:
   tls:
   - hosts:
     - k8scicd.example.com
+```
+
+### RBAC (Optional)
+Default RBAC binding to `serviceaccount/drone/default` can run daily devops.
+This following RBAC is for other purposes.
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: drone-default-sa-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: drone
 ```
